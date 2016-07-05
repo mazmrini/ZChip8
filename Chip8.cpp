@@ -1,3 +1,4 @@
+// TESTS
 #include "Chip8.h";
 using std;
 
