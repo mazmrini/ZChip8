@@ -1,8 +1,3 @@
-// TESTS
-// OPCODE WORK
-// YESS
-// AGAIN
-// AGAIN FOR REAL
 #include "Chip8.h";
 using std;
 
