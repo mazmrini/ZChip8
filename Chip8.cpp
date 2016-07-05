@@ -1,4 +1,5 @@
 // TESTS
+// OPCODE WORK
 #include "Chip8.h";
 using std;
 
