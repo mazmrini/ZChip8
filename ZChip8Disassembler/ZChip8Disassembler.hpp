@@ -1,8 +1,6 @@
 #ifndef ZCHIP8DISASSEMBLER_HPP
 #define ZCHIP8DISASSEMBLER_HPP
 
-#include <fstream>
-
 typedef unsigned char u8int;
 typedef unsigned short u16int;
 
@@ -31,10 +29,10 @@ namespace Disassembler {
 	extern u8int Vy; // 00Y0 in opcode
 	extern u8int kk; // last 2 nibbles of opcode
 	extern u16int nnn; // last 3 nibbles of opcode
+	extern void (*Chip8Instructions[16])();
 	
-	u8int* readFileBytes(std::ifstream);
+	u8int* readFileBytes(char* name);
 	
-
 }
 
 #endif

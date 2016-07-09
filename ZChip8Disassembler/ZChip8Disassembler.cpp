@@ -228,9 +228,29 @@ void unknownOpcode()
 	printf("%-16s : %s", "UNKNOWN OPCODE", "NOT IN THE OPCODE LIST");
 }
 
-u8int* readFileBytes(std::ifstream file)  
+// TODO better commenting
+u8int* readFileBytes(char * name)  
 {  
- 
+	// read the first argument as a binary file
+	std::ifstream chip8File(name, std::ios::binary);
+	
+	// TODO : CALL readFileBytes
+	if (!chip8File.is_open())
+	{
+		printf("Error : Could not open %s", name);
+		return 222;
+	}
+	
+ 	// TODO better comments
+    chip8File.seekg(0, std::ios::end);  
+	size_t len = chip8File.tellg();  
+    u8int* buffer = new u8int[len + 0x200];  
+    chip8File.seekg(0, std::ios::beg);   
+    chip8File.read((char*) buffer + 0x200, len);  
+    chip8File.close();  
+	
+	return buffer;
+	
 }  
 
 } // End of neamespace

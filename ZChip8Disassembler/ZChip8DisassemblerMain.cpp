@@ -6,7 +6,6 @@
 
 using namespace std;
 	
-void (*Chip8Instructions[16])();
 u16int Disassembler::opcode;
 u8int Disassembler::Vx;
 u8int Disassembler::Vy;
@@ -15,24 +14,14 @@ u16int Disassembler::nnn;
 
 int main(int argc, char * argv[]) 
 {
-
-	// read the first argument as a binary file
-	ifstream chip8File(argv[1], ios::binary);
-	
-	if (!chip8File.is_open())
+	if (argc != 2) 
 	{
-		printf("Error : Could not open %s\n", argv[1]);
+		printf("Error: Only 1 argument needed.\n%d given.", argc);
 		return 1;
 	}
 	
-	
-    chip8File.seekg(0, ios::end );  
-	size_t len = chip8File.tellg();  
-    u8int* buffer = new u8int[len + 0x200];  
-    chip8File.seekg(0, ios::beg);   
-    chip8File.read((char*) buffer + 0x200, len);  
-    chip8File.close();  
-	
+	u8int buffer = Disassembler::readFileBytes(argv[1]);
+
 	/*
 	// GET FILE SIZE
 	fseek(chip8File, 0L, SEEK_END); // move the pointer to the end of the file
@@ -53,8 +42,31 @@ int main(int argc, char * argv[])
 	
 	// program counter for the code and opcode
 	u16int pc = 0x200;
+
+	while (buffer[pc] != '\0') 
+	{
+		Disassembler::opcode = (buffer[pc] << 8) | (buffer[pc + 1]);
+		
+		Disassembler::Vx = (Disassembler::opcode & 0x0F00) >> 8;
+		Disassembler::Vy = (Disassembler::opcode & 0x00F0) >> 4;
+		Disassembler::kk = Disassembler::opcode & 0x00FF;
+		Disassembler::nnn = Disassembler::opcode & 0x0FFF;
+		
+		printf("0x%04X    0x%04X    ", pc, Disassembler::opcode);
+		
+		Disassembler::Chip8Instructions[(Disassembler::opcode & 0xF000) >> 12]();
+		
+		pc += 2;
+		
+		printf("\n");
+		
+	}
 	
-void (*Chip8Instructions[16])() =
+	delete [] buffer;
+	return 0;
+}
+
+void (*Disassembler::Chip8Instructions[16])() =
 {
 	Disassembler::FirstNibbleIs_0,
 	Disassembler::FirstNibbleIs_1,
@@ -73,26 +85,3 @@ void (*Chip8Instructions[16])() =
 	Disassembler::FirstNibbleIs_E,
 	Disassembler::FirstNibbleIs_F
 };
-
-	while (buffer[pc] != '\0') 
-	{
-		Disassembler::opcode = (buffer[pc] << 8) | (buffer[pc + 1]);
-		
-		Disassembler::Vx = (Disassembler::opcode & 0x0F00) >> 8;
-		Disassembler::Vy = (Disassembler::opcode & 0x00F0) >> 4;
-		Disassembler::kk = Disassembler::opcode & 0x00FF;
-		Disassembler::nnn = Disassembler::opcode & 0x0FFF;
-		
-		printf("0x%04X    0x%04X    ", pc, Disassembler::opcode);
-		
-		Chip8Instructions[(Disassembler::opcode & 0xF000) >> 12]();
-		
-		pc += 2;
-		
-		printf("\n");
-		
-	}
-	
-	delete [] buffer;
-	return 0;
-}
