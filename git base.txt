@@ -41,4 +41,10 @@ git rm --cached filename --> remove file from git repository and not from system
 git pull
 
 
+// clone le master et les branches :
+git clone http::
+git branch -a
+git checkout -b <nom local> origin/<nom de branche>
 
+// pull toutes les branches :
+gitk --all &
