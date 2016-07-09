@@ -1,6 +1,8 @@
 #ifndef ZCHIP8DISASSEMBLER_HPP
 #define ZCHIP8DISASSEMBLER_HPP
 
+#include <fstream>
+
 namespace Disassembler {
 	
 	typedef unsigned char u8int;
@@ -29,6 +31,8 @@ namespace Disassembler {
 	void FirstNibbleIs_D();
 	void FirstNibbleIs_E();
 	void FirstNibbleIs_F();
+	
+	u8int* readFileBytes(std::ifstream);
 
 		
 	void (*Chip8Instructions[16])() = 
