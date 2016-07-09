@@ -1,0 +1,44 @@
+git init -> crée un répertoire git (déjà fait dans PROJECTS)
+
+git clone URL -> crée un repository pour un projet en particulier
+
+git add  <file> -> stage le fichier
+
+git commit -m "changement fait" -> ajoute au stage
+
+git push -> envoie sur github
+
+
+
+git branch -> regarde les branches
+
+git branch <branch-name> -> crée la branche
+git checkout -b  <branch-name> --> crée la branch branch-name et change sur la branche
+git push <remote> <branch-name> -> ajoute la branche sur github
+(modifier la branche)
+git add -A
+git commit -m "commentaire"
+git push origin <branch name>
+git checkout master
+git merge <branch name> -> local
+git commit -m "merging xxx"
+git push -> merge online
+
+git branch -d <branch name> -> delete la branche LOCALEMENT
+git push <remote> --delete <branch-name> -> delete la branche sur github
+
+git checkout <branch-name> -> change sur la branche branch-name
+
+git remote set-url <branch-name> git://xxxx -> branch-name : origin ou autre branches
+
+git mv oldname newname --> renome un fichier
+
+git rm filename --> remove file completely
+git rm --cached filename --> remove file from git repository and not from system
+
+
+// Si le merge a été fait sur github
+git pull
+
+
+
