@@ -1,30 +1,10 @@
-#ifndef CHIP8DISASSEMBLER_HPP
-#define CHIP8DISASSEMBLER_HPP
+#ifndef ZCHIP8DISASSEMBLER_HPP
+#define ZCHIP8DISASSEMBLER_HPP
 
 namespace Disassembler {
 	
 	typedef unsigned char u8int;
 	typedef unsigned short u16int;
-	
-	void (*Chip8Instructions[16])() = 
-	{
-		FirstNibbleIs_0,
-		FirstNibbleIs_1,
-		FirstNibbleIs_2,
-		FirstNibbleIs_3,
-		FirstNibbleIs_4,
-		FirstNibbleIs_5,
-		FirstNibbleIs_6,
-		FirstNibbleIs_7,
-		FirstNibbleIs_8,
-		FirstNibbleIs_9,
-		FirstNibbleIs_A,
-		FirstNibbleIs_B,
-		FirstNibbleIs_C,
-		FirstNibbleIs_D,
-		FirstNibbleIs_E,
-		FirstNibbleIs_F
-	};
 	
 	u16int opcode;
 	u8int Vx; // 0X00 in opcode
@@ -49,6 +29,27 @@ namespace Disassembler {
 	void FirstNibbleIs_D();
 	void FirstNibbleIs_E();
 	void FirstNibbleIs_F();
+
+		
+	void (*Chip8Instructions[16])() = 
+	{
+		FirstNibbleIs_0,
+		FirstNibbleIs_1,
+		FirstNibbleIs_2,
+		FirstNibbleIs_3,
+		FirstNibbleIs_4,
+		FirstNibbleIs_5,
+		FirstNibbleIs_6,
+		FirstNibbleIs_7,
+		FirstNibbleIs_8,
+		FirstNibbleIs_9,
+		FirstNibbleIs_A,
+		FirstNibbleIs_B,
+		FirstNibbleIs_C,
+		FirstNibbleIs_D,
+		FirstNibbleIs_E,
+		FirstNibbleIs_F
+	};
 
 }
 

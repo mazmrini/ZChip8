@@ -1,4 +1,4 @@
-#include "Chip8Disassembler.hpp"
+#include "ZChip8Disassembler.hpp"
 #include <cstdio>
 
 namespace Disassembler {
