@@ -6,7 +6,7 @@
 
 using namespace std;
 	
-void (*Chip8Instructions[200])();
+void (*Chip8Instructions[16])();
 u16int Disassembler::opcode;
 u8int Disassembler::Vx;
 u8int Disassembler::Vy;
@@ -56,25 +56,25 @@ int main(int argc, char * argv[])
 	
 void (*Chip8Instructions[16])() =
 {
-	Disassembler::FirstNibbleIs_0(),
-	Disassembler::FirstNibbleIs_1(),
-	Disassembler::FirstNibbleIs_2(),
-	Disassembler::FirstNibbleIs_3(),
-	Disassembler::FirstNibbleIs_4(),
-	Disassembler::FirstNibbleIs_5(),
-	Disassembler::FirstNibbleIs_6(),
-	Disassembler::FirstNibbleIs_7(),
-	Disassembler::FirstNibbleIs_8(),
-	Disassembler::FirstNibbleIs_9(),
-	Disassembler::FirstNibbleIs_A(),
-	Disassembler::FirstNibbleIs_B(),
-	Disassembler::FirstNibbleIs_C(),
-	Disassembler::FirstNibbleIs_D(),
-	Disassembler::FirstNibbleIs_E(),
-	Disassembler::FirstNibbleIs_F()
+	Disassembler::FirstNibbleIs_0,
+	Disassembler::FirstNibbleIs_1,
+	Disassembler::FirstNibbleIs_2,
+	Disassembler::FirstNibbleIs_3,
+	Disassembler::FirstNibbleIs_4,
+	Disassembler::FirstNibbleIs_5,
+	Disassembler::FirstNibbleIs_6,
+	Disassembler::FirstNibbleIs_7,
+	Disassembler::FirstNibbleIs_8,
+	Disassembler::FirstNibbleIs_9,
+	Disassembler::FirstNibbleIs_A,
+	Disassembler::FirstNibbleIs_B,
+	Disassembler::FirstNibbleIs_C,
+	Disassembler::FirstNibbleIs_D,
+	Disassembler::FirstNibbleIs_E,
+	Disassembler::FirstNibbleIs_F
 };
 
-	while (pc < 0x201) 
+	while (buffer[pc] != '\0') 
 	{
 		Disassembler::opcode = (buffer[pc] << 8) | (buffer[pc + 1]);
 		
