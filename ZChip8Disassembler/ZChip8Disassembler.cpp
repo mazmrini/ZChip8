@@ -230,15 +230,7 @@ void unknownOpcode()
 
 u8int* readFileBytes(std::ifstream file)  
 {  
-
-    file.seekg(0, std::ios::end );  
-	int len = file.tellg();  
-    char *ret = new char[len + 0x200];  
-    file.seekg(0, std::ios::beg);   
-    file.read(ret, len);  
-    file.close();  
-	
-    return ret;  
+ 
 }  
 
 } // End of neamespace

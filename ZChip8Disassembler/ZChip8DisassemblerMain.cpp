@@ -5,18 +5,33 @@
 #include "ZChip8Disassembler.hpp"
 
 using namespace std;
+	
+void (*Chip8Instructions[200])();
+u16int Disassembler::opcode;
+u8int Disassembler::Vx;
+u8int Disassembler::Vy;
+u8int Disassembler::kk;
+u16int Disassembler::nnn;
 
 int main(int argc, char * argv[]) 
 {
 
 	// read the first argument as a binary file
-	std::ifstream chip8File(argv[1], std::ios::binary);
+	ifstream chip8File(argv[1], ios::binary);
 	
 	if (!chip8File.is_open())
 	{
 		printf("Error : Could not open %s\n", argv[1]);
 		return 1;
 	}
+	
+	
+    chip8File.seekg(0, ios::end );  
+	size_t len = chip8File.tellg();  
+    u8int* buffer = new u8int[len + 0x200];  
+    chip8File.seekg(0, ios::beg);   
+    chip8File.read((char*) buffer + 0x200, len);  
+    chip8File.close();  
 	
 	/*
 	// GET FILE SIZE
@@ -33,15 +48,33 @@ int main(int argc, char * argv[])
 	fclose(chip8File);
 	*/
 	
-	char *buffer = Disassembler::readFileBytes(chip8File);
-	
 	printf("%-6s    %-6s    %-16s : %s\n", "ADDR", "OP", "INSTRUCTION", "DETAILS");
-	printf("------    ------    ----------------   ------------------------------------------");
+	printf("------    ------    ----------------   ------------------------------------------\n");
 	
 	// program counter for the code and opcode
-	Disassembler::u16int pc = 0x200;
+	u16int pc = 0x200;
 	
-	while (pc < sizeof(buffer)) 
+void (*Chip8Instructions[16])() =
+{
+	Disassembler::FirstNibbleIs_0(),
+	Disassembler::FirstNibbleIs_1(),
+	Disassembler::FirstNibbleIs_2(),
+	Disassembler::FirstNibbleIs_3(),
+	Disassembler::FirstNibbleIs_4(),
+	Disassembler::FirstNibbleIs_5(),
+	Disassembler::FirstNibbleIs_6(),
+	Disassembler::FirstNibbleIs_7(),
+	Disassembler::FirstNibbleIs_8(),
+	Disassembler::FirstNibbleIs_9(),
+	Disassembler::FirstNibbleIs_A(),
+	Disassembler::FirstNibbleIs_B(),
+	Disassembler::FirstNibbleIs_C(),
+	Disassembler::FirstNibbleIs_D(),
+	Disassembler::FirstNibbleIs_E(),
+	Disassembler::FirstNibbleIs_F()
+};
+
+	while (pc < 0x201) 
 	{
 		Disassembler::opcode = (buffer[pc] << 8) | (buffer[pc + 1]);
 		
@@ -52,7 +85,7 @@ int main(int argc, char * argv[])
 		
 		printf("0x%04X    0x%04X    ", pc, Disassembler::opcode);
 		
-		Disassembler::Chip8Instructions[(Disassembler::opcode & 0xF000) >> 12]();
+		Chip8Instructions[(Disassembler::opcode & 0xF000) >> 12]();
 		
 		pc += 2;
 		
@@ -60,6 +93,6 @@ int main(int argc, char * argv[])
 		
 	}
 	
-	//free (buffer);
+	delete [] buffer;
 	return 0;
 }

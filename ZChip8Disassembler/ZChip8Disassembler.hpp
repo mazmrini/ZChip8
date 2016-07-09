@@ -3,16 +3,10 @@
 
 #include <fstream>
 
+typedef unsigned char u8int;
+typedef unsigned short u16int;
+
 namespace Disassembler {
-	
-	typedef unsigned char u8int;
-	typedef unsigned short u16int;
-	
-	u16int opcode;
-	u8int Vx; // 0X00 in opcode
-	u8int Vy; // 00Y0 in opcode
-	u8int kk; // last 2 nibbles of opcode
-	u16int nnn; // last 3 nibbles of opcode
 
 	void unknownOpcode();
 	void FirstNibbleIs_0();
@@ -32,28 +26,14 @@ namespace Disassembler {
 	void FirstNibbleIs_E();
 	void FirstNibbleIs_F();
 	
+	extern u16int opcode;
+	extern u8int Vx; // 0X00 in opcode
+	extern u8int Vy; // 00Y0 in opcode
+	extern u8int kk; // last 2 nibbles of opcode
+	extern u16int nnn; // last 3 nibbles of opcode
+	
 	u8int* readFileBytes(std::ifstream);
-
-		
-	void (*Chip8Instructions[16])() = 
-	{
-		FirstNibbleIs_0,
-		FirstNibbleIs_1,
-		FirstNibbleIs_2,
-		FirstNibbleIs_3,
-		FirstNibbleIs_4,
-		FirstNibbleIs_5,
-		FirstNibbleIs_6,
-		FirstNibbleIs_7,
-		FirstNibbleIs_8,
-		FirstNibbleIs_9,
-		FirstNibbleIs_A,
-		FirstNibbleIs_B,
-		FirstNibbleIs_C,
-		FirstNibbleIs_D,
-		FirstNibbleIs_E,
-		FirstNibbleIs_F
-	};
+	
 
 }
 
