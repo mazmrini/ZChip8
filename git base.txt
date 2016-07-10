@@ -48,3 +48,9 @@ git checkout -b <nom local> origin/<nom de branche>
 
 // pull toutes les branches :
 gitk --all &
+
+// discard all changes before git add
+git checkout -- .
+
+// discard specific changes before git add
+git checkout -- branchname filename
