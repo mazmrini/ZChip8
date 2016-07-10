@@ -45,7 +45,9 @@ int main(int argc, char * argv[])
 	printf("------    ------    ----------------   ------------------------------------------\n");
 	
 	// program counter for the code and opcode
-	u16int pc = 0;
+	u16int pc = 0x200;
+	
+	//printf("%d : %d", pc, buffer.capacity());
 
 	while (pc < buffer.size())
 	{
@@ -56,7 +58,7 @@ int main(int argc, char * argv[])
 		Disassembler::kk = Disassembler::opcode & 0x00FF;
 		Disassembler::nnn = Disassembler::opcode & 0x0FFF;
 		
-		printf("0x%04X    0x%04X    ", pc + 0x200, Disassembler::opcode);
+		printf("0x%04X    0x%04X    ", pc, Disassembler::opcode);
 		
 		Disassembler::Chip8Instructions[(Disassembler::opcode & 0xF000) >> 12]();
 		

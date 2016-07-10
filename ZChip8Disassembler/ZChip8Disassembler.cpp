@@ -239,24 +239,29 @@ std::vector<u8int> readFileBytes(char *name)
     chip8File.unsetf(std::ios::skipws);
 
     // get its size:
-    std::streampos fileSize;
+    size_t fileSize;
 
+	// goes to then end of the stream
     chip8File.seekg(0, std::ios::end);
+	
+	// return current position of current character in the input stream
     fileSize = chip8File.tellg();
+	
+	// goes back to the beginning of the stream
     chip8File.seekg(0, std::ios::beg);
 
     // reserve capacity
     std::vector<u8int> vec;
-    vec.reserve(fileSize); // +(std::streampos) 0x200);
-
-	// TODO ADD 0x200
+    vec.reserve(fileSize + 0x200);
+	
 	std::vector<u8int>::iterator fileStart = vec.begin();
 	
     // read the data:
-    vec.insert(fileStart,
-               std::istream_iterator<u8int> (chip8File),
-               std::istream_iterator<u8int>());
-
+    vec.insert(vec.begin(), std::istream_iterator<u8int> (chip8File), std::istream_iterator<u8int>());
+	
+	// insert 0s in the first 0x200
+	vec.insert(vec.begin(), 0x200, 0);
+	
     return vec;
 /*
 	// read the first argument as a binary file
