@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <fstream>
+#include <iterator>
 
 #include "ZChip8Disassembler.hpp"
 
@@ -229,8 +230,35 @@ void unknownOpcode()
 }
 
 // TODO better commenting
-u8int* readFileBytes(char * name)  
+std::vector<u8int> readFileBytes(char *name)  
 {  
+	// open the file:
+    std::ifstream chip8File(name, std::ios::binary);
+
+    // Stop eating new lines in binary mode!!!
+    chip8File.unsetf(std::ios::skipws);
+
+    // get its size:
+    std::streampos fileSize;
+
+    chip8File.seekg(0, std::ios::end);
+    fileSize = chip8File.tellg();
+    chip8File.seekg(0, std::ios::beg);
+
+    // reserve capacity
+    std::vector<u8int> vec;
+    vec.reserve(fileSize); // +(std::streampos) 0x200);
+
+	// TODO ADD 0x200
+	std::vector<u8int>::iterator fileStart = vec.begin();
+	
+    // read the data:
+    vec.insert(fileStart,
+               std::istream_iterator<u8int> (chip8File),
+               std::istream_iterator<u8int>());
+
+    return vec;
+/*
 	// read the first argument as a binary file
 	std::ifstream chip8File(name, std::ios::binary);
 	
@@ -238,19 +266,17 @@ u8int* readFileBytes(char * name)
 	if (!chip8File.is_open())
 	{
 		printf("Error : Could not open %s", name);
-		return 222;
+		return NULL;
 	}
 	
  	// TODO better comments
-    chip8File.seekg(0, std::ios::end);  
-	size_t len = chip8File.tellg();  
-    u8int* buffer = new u8int[len + 0x200];  
-    chip8File.seekg(0, std::ios::beg);   
-    chip8File.read((char*) buffer + 0x200, len);  
-    chip8File.close();  
+
+	std::vector<u8int> buffer((
+		std::istreambuf_iterator<u8int> (chip8File)), 
+		((u8int) std::istreambuf_iterator<char>());
 	
 	return buffer;
-	
+*/
 }  
 
 } // End of neamespace

@@ -1,6 +1,8 @@
 #ifndef ZCHIP8DISASSEMBLER_HPP
 #define ZCHIP8DISASSEMBLER_HPP
 
+#include <vector>
+
 typedef unsigned char u8int;
 typedef unsigned short u16int;
 
@@ -31,7 +33,7 @@ namespace Disassembler {
 	extern u16int nnn; // last 3 nibbles of opcode
 	extern void (*Chip8Instructions[16])();
 	
-	u8int* readFileBytes(char* name);
+	std::vector<u8int> readFileBytes(char* name);
 	
 }
 

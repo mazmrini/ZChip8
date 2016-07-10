@@ -1,6 +1,7 @@
 #include <fstream>
 #include <algorithm>
 #include <cstdio>
+#include <vector>
 
 #include "ZChip8Disassembler.hpp"
 
@@ -12,6 +13,9 @@ u8int Disassembler::Vy;
 u8int Disassembler::kk;
 u16int Disassembler::nnn;
 
+// run in CMD :
+// g++ ZChip8Disassembler\ZChip8Disassembler.cpp ZChip8Disassembler\ZChip8DisassemblerMain.cpp && a.exe "Chip8Pack\Chip-8 Demos\Particle Demo [zeroZshadow, 2008].ch8"
+
 int main(int argc, char * argv[]) 
 {
 	if (argc != 2) 
@@ -20,7 +24,7 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 	
-	u8int buffer = Disassembler::readFileBytes(argv[1]);
+	vector<u8int> buffer = Disassembler::readFileBytes(argv[1]);
 
 	/*
 	// GET FILE SIZE
@@ -41,9 +45,9 @@ int main(int argc, char * argv[])
 	printf("------    ------    ----------------   ------------------------------------------\n");
 	
 	// program counter for the code and opcode
-	u16int pc = 0x200;
+	u16int pc = 0;
 
-	while (buffer[pc] != '\0') 
+	while (pc < buffer.size())
 	{
 		Disassembler::opcode = (buffer[pc] << 8) | (buffer[pc + 1]);
 		
@@ -52,7 +56,7 @@ int main(int argc, char * argv[])
 		Disassembler::kk = Disassembler::opcode & 0x00FF;
 		Disassembler::nnn = Disassembler::opcode & 0x0FFF;
 		
-		printf("0x%04X    0x%04X    ", pc, Disassembler::opcode);
+		printf("0x%04X    0x%04X    ", pc + 0x200, Disassembler::opcode);
 		
 		Disassembler::Chip8Instructions[(Disassembler::opcode & 0xF000) >> 12]();
 		
@@ -62,7 +66,6 @@ int main(int argc, char * argv[])
 		
 	}
 	
-	delete [] buffer;
 	return 0;
 }
 
